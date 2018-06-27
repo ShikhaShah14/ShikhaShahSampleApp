@@ -2,4 +2,6 @@
     <string name="app_name">ShikhaShahSampleApp</string>
     <string name="no_record_found">No record found</string>
     <string name="giphy_api_key">CM4tt7pA9HepmDGcmPQv6evm7rt6zFb1</string>
+    <string name="likes">Likes</string>
+    <string name="dislikes">Dislikes</string>
 </resources>

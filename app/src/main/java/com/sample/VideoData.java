@@ -1,13 +1,17 @@
 package com.sample;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.query.Select;
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by HTISPL on 22-Jun-18.
  */
-public class VideoData {
+public class VideoData extends Model {
+    @Column(unique = true, onUniqueConflict = Column.ConflictAction.IGNORE)
     @SerializedName("id")
-    private String id;
+    private String videoId;
 
     @SerializedName("type")
     private String type;
@@ -18,7 +22,15 @@ public class VideoData {
     @SerializedName("images")
     private ImageData imageData;
 
+    @Column
+    private int likeCounts;
+
+    @Column
+    private int dislikeCounts;
+
     public class ImageData {
+        private long ImageDataId;
+
         @SerializedName("original_still")
         private ThumbnailData thumbnailData;
 
@@ -36,6 +48,7 @@ public class VideoData {
             public void setThumbnail(String thumbnail) {
                 this.thumbnail = thumbnail;
             }
+
         }
 
         public class VideoUrl {
@@ -49,6 +62,7 @@ public class VideoData {
             public void setUrl(String url) {
                 this.url = url;
             }
+
         }
 
         public ThumbnailData getThumbnailData() {
@@ -66,14 +80,22 @@ public class VideoData {
         public void setVideoUrl(VideoUrl videoUrl) {
             this.videoUrl = videoUrl;
         }
+
+        public long getImageDataId() {
+            return ImageDataId;
+        }
+
+        public void setImageDataId(long imageDataId) {
+            ImageDataId = imageDataId;
+        }
     }
 
-    public String getId() {
-        return id;
+    public String getVideoId() {
+        return videoId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
     }
 
     public String getType() {
@@ -98,5 +120,25 @@ public class VideoData {
 
     public void setImageData(ImageData imageData) {
         this.imageData = imageData;
+    }
+
+    public int getLikeCounts() {
+        return likeCounts;
+    }
+
+    public void setLikeCounts(int likeCounts) {
+        this.likeCounts = likeCounts;
+    }
+
+    public int getDislikeCounts() {
+        return dislikeCounts;
+    }
+
+    public void setDislikeCounts(int dislikeCounts) {
+        this.dislikeCounts = dislikeCounts;
+    }
+
+    public static VideoData getLikeDislikeCounts(String id) {
+        return new Select().from(VideoData.class).where("videoId=?", id).executeSingle();
     }
 }

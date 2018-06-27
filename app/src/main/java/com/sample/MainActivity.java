@@ -2,7 +2,6 @@ package com.sample;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.giphy.sdk.core.network.api.GPHApi;
@@ -126,6 +124,10 @@ public class MainActivity extends AppCompatActivity {
                                 Gson gson = new Gson();
                                 videoList = gson.fromJson(response.body().get("data").getAsJsonArray(), new TypeToken<ArrayList<VideoData>>() {
                                 }.getType());
+                                for (VideoData vd : videoList) {
+                                    vd.save();
+                                }
+
                                 Log.e("videoList size", videoList.size() + "");
                                 videoAdapter = new VideoAdapter();
                                 rvVideos.setAdapter(videoAdapter);
@@ -180,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
             holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("VideoUrl", videoList.get(position).getImageData().getVideoUrl().getUrl()));
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class).putExtra("VideoId", videoList.get(position).getVideoId()).putExtra("VideoUrl", videoList.get(position).getImageData().getVideoUrl().getUrl()));
                 }
             });
         }
